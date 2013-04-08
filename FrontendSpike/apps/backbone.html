@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Backbone App</title>
+    <link rel="stylesheet" href="../Content/vendor/css/bootstrap.css" />
+    <link rel="stylesheet" href="../Content/site.css" />
+    <link rel="stylesheet" href="../Content/vendor/css/bootstrap-responsive.css" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-static-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand">My MVC Site</a>
+                <ul class="nav">
+                    <li><a href="#users">Users</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="content" class="container"></div>
+    <script type="text/template" id="user-page-view-template">
+        <div class="page-header"><h1>User Management</h1></div>
+        <div id="edit"></div>
+        <div id="content"></div>    
+    </script>
+    <script type="text/template" id="users-table-template">
+        <thead>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email Address</th>
+            <th>Created On</th>
+            <th>Last Modified</th>
+            <th></th>
+        </thead>
+        <tbody>
+        </tbody>
+    </script>
+
+    <script type="text/template" id="user-template">
+        <td><%= FirstName %> <%= LastName %></td>
+        <td><%= Username %></td>
+        <td><%= EmailAddress %></td>
+        <td><%= Date.create(CreatedDate).format('{Weekday} {d} {Month}, {yyyy} {h}:{mm} {tt}') %></td>
+        <td><%= ModifiedDate ? Date.create(ModifiedDate).format('{Weekday} {d} {Month}, {yyyy} {h}:{mm} {tt}') : '' %></td>
+        <td><div class="trash"><i class="remove icon-trash"></i></div></td>
+    </script>
+    <script type="text/template" id="user-add-edit-template">
+        <form class="well form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="txtUsername">User Name</label>
+                <div class="controls">
+                    <input type="text" class="input-large" value="<%= Username %>" id="txtUsername" data-is-taken="<%= UsernameTaken %>" <% if (UserId) { %>disabled<% } %> />
+                    <span class="help-inline" style="display:none">Username is taken</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="txtFirstName">First Name</label>
+                <div class="controls">
+                    <input type="text" class="input-large" value="<%= FirstName %>" id="txtFirstName" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="txtLastName">Last Name</label>
+                <div class="controls">
+                    <input type="text" class="input-large" value="<%= LastName %>" id="txtLastName" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="txtEmailAddress">Email Address</label>
+                <div class="controls">
+                    <input type="text" class="input-large" value="<%= EmailAddress %>" id="txtEmailAddress" />
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="button" id="save" class="btn btn-primary" value="Save" />
+                    <input type="button" id="clear" class="btn" value="Clear" />
+                </div>
+            </div>
+        </form>
+    </script>
+    <script type="text/javascript" src="../Scripts/common/vendor/require.js" data-main="../Scripts/backbone/app"></script>
+</body>
+</html>

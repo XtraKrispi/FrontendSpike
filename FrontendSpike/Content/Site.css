@@ -1,0 +1,32 @@
+﻿.selectable {
+    cursor: pointer;
+}
+
+table tr.selectable:hover > td {
+    background-color: #eee;
+}
+
+div.trash {
+    padding: 3px;
+    display: inline-block;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+div.trash:hover {
+    background-color: #aaa;
+}
+
+table tr.selectable > td .remove {
+    visibility: hidden;
+}
+
+table tr.selectable:hover > td .remove {
+    visibility: visible;
+}
+
+#edit {
+    margin-top: 20px;
+}
+
