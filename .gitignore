@@ -2,3 +2,4 @@ FrontendSpike/bin/
 FrontendSpike/obj/
 packages/
 .git/
+*.suo
