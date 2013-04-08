@@ -1,7 +1,8 @@
 FrontendSpike
 =============
+A spike application to test various frontend MV* frameworks.
+This is a .NET 4.5 application running with Entity Framework and Web API.
 
 Please Note:
-============
-The Database path in the web.config needs to be altered.
-Once done, you can run Update-Database from the Package Manager console to create the database and run any migrations
+------------
+This repo does not contain the DLLs from the NuGet Packages, please install them if necessary.

@@ -9,6 +9,7 @@ namespace FrontendSpike.DataAccess
 {
     public class MvcContext : DbContext
     {
+        public MvcContext(): base("MVCDatabase"){}
         public DbSet<User> Users { get; set; }
     }
 }
