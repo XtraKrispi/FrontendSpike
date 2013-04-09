@@ -6,10 +6,10 @@ This is a .NET 4.5 application running with Entity Framework and Web API.
 This is a work in progress.  The apps can be viewed by navigating to apps/{app name}.
 
 Currently, the apps to be supported are:
-	*	Backbone (/apps/backbone.html)
-	*	Angular (/apps/angular.html)
-	*	Knockout (/apps/knockout.html)
-	*	Ember (/apps/ember.html)
+*	Backbone (/apps/backbone.html)
+*	Angular (/apps/angular.html)
+*	Knockout (/apps/knockout.html)
+*	Ember (/apps/ember.html)
 
 Please Note:
 ------------
