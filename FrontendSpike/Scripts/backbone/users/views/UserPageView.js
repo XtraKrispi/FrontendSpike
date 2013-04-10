@@ -4,7 +4,6 @@
         addEditUserView: null,
         usersView: null,
         initialize: function () {
-            var that = this;
             if (!this.editingUser) {
                 this.editingUser = new User();
             }
@@ -22,12 +21,12 @@
             }
 
             this.addEditUserView.on('added', function (user) {
-                that.usersView.added(user);
-            });
+                this.usersView.added(user);
+            }, this);
 
             this.addEditUserView.on('updated', function(user) {
-                that.usersView.updated(user);
-            });
+                this.usersView.updated(user);
+            }, this);
         },
     render: function () {
         this.$el.html(this.template.html());

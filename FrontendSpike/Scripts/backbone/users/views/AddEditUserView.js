@@ -6,37 +6,36 @@
         firstNameInput: '#txtFirstName',
         lastNameInput: '#txtLastName',
         initialize: function () {
-            var that = this;
             this.model.on('invalid', function (errors) {
                 var validationErrors = errors.validationError;
                 
-                $(that.usernameInput).closest('.control-group').removeClass('error');
-                $(that.emailInput).closest('.control-group').removeClass('error');
-                $(that.firstNameInput).closest('.control-group').removeClass('error');
-                $(that.lastNameInput).closest('.control-group').removeClass('error');
+                $(this.usernameInput).closest('.control-group').removeClass('error');
+                $(this.emailInput).closest('.control-group').removeClass('error');
+                $(this.firstNameInput).closest('.control-group').removeClass('error');
+                $(this.lastNameInput).closest('.control-group').removeClass('error');
 
                 if (validationErrors.Username) {
-                    $(that.usernameInput).closest('.control-group').addClass('error');
+                    $(this.usernameInput).closest('.control-group').addClass('error');
                 }
                 if (validationErrors.EmailAddress) {
-                    $(that.emailInput).closest('.control-group').addClass('error');
+                    $(this.emailInput).closest('.control-group').addClass('error');
                 }
                 if (validationErrors.FirstName) {
-                    $(that.firstNameInput).closest('.control-group').addClass('error');
+                    $(this.firstNameInput).closest('.control-group').addClass('error');
                 }
                 if (validationErrors.LastName) {
-                    $(that.lastNameInput).closest('.control-group').addClass('error');
+                    $(this.lastNameInput).closest('.control-group').addClass('error');
                 }
-            });
+            }, this);
 
             this.model.on('sync', function() {
-                that.trigger('added', that.model);
-                that.reset();
-            });
+                this.trigger('added', this.model);
+                this.reset();
+            }, this);
 
             this.model.on('changed', function () {
-                that.render();
-            });
+                this.render();
+            }, this);
         },
         events: {
             'click #save': 'save',

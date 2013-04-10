@@ -4,13 +4,12 @@
         className: 'table table-striped',
         template: $('#users-table-template').html(),
         initialize: function () {
-            var that = this;
             this.collection.on('reset', function() {
-                that.render();
-            });
+                this.render();
+            }, this);
             this.collection.on('add', function(model) {
-                that.add(model);
-            });
+                this.add(model);
+            }, this);
         },
         render: function () {
             this.renderList(this.collection.models);
@@ -24,13 +23,12 @@
             this.renderList(this.collection.search(username));
         },
         renderList: function (list) {
-            var that = this;
             this.$el.find('tbody').empty();
-            that.$el.append(this.template);
+            this.$el.append(this.template);
             _(list).each(function (item) {
                 var userView = new UserView({ model: item });
-                that.$el.find('tbody').append(userView.render().el);
-            });
+                this.$el.find('tbody').append(userView.render().el);
+            }, this);
         },
         renderOne: function(model, index) {
             var userView = new UserView({ model: model });
