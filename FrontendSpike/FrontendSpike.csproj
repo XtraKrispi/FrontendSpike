@@ -202,6 +202,17 @@
     <Content Include="Content\vendor\img\glyphicons-halflings.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\angular\app.js" />
+    <Content Include="Scripts\angular\common\controllers.js" />
+    <Content Include="Scripts\angular\common\directives.js" />
+    <Content Include="Scripts\angular\common\services.js" />
+    <Content Include="Scripts\angular\users\controllers.js" />
+    <Content Include="Scripts\angular\users\directives.js" />
+    <Content Include="Scripts\angular\users\services.js" />
+    <Content Include="Scripts\angular\vendor\angular-resource.js" />
+    <Content Include="Scripts\angular\vendor\angular-resource.min.js" />
+    <Content Include="Scripts\angular\vendor\angular.js" />
+    <Content Include="Scripts\angular\vendor\angular.min.js" />
     <Content Include="Scripts\backbone\app.js" />
     <Content Include="Scripts\backbone\users\collections\Users.js" />
     <Content Include="Scripts\backbone\users\models\User.js" />
@@ -231,7 +242,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\common\" />
-    <Folder Include="Scripts\angular\" />
     <Folder Include="Scripts\backbone\users\router\" />
     <Folder Include="Scripts\ember\" />
     <Folder Include="Scripts\knockout\" />

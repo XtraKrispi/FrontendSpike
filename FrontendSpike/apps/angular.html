@@ -2,8 +2,34 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Angular App</title>
+    <link rel="stylesheet" href="../Content/vendor/css/bootstrap.css" />
+    <link rel="stylesheet" href="../Content/site.css" />
+    <link rel="stylesheet" href="../Content/vendor/css/bootstrap-responsive.css" />
+    <script type="text/javascript" src="../Scripts/angular/vendor/angular.js"></script>
+    <script type="text/javascript" src="../Scripts/angular/vendor/angular-resource.js"></script>
 </head>
-    <body>
-        Angular!
-    </body>
+<body ng-app="myApp">
+    <div class="navbar navbar-inverse navbar-static-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand">My MVC Site</a>
+                <ul class="nav">
+                    <li><a href="#users">Users</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container" ng-view></div>
+    
+    <script type="text/ng-template" id="partials/users.html">
+        Test
+    </script>
+    <script type="text/javascript" src="../Scripts/angular/app.js"></script>
+    <script type="text/javascript" src="../Scripts/angular/users/controllers.js"></script>
+    <script type="text/javascript" src="../Scripts/angular/users/directives.js"></script>
+    <script type="text/javascript" src="../Scripts/angular/users/services.js"></script>
+    <script type="text/javascript" src="../Scripts/angular/common/controllers.js"></script>
+    <script type="text/javascript" src="../Scripts/angular/common/directives.js"></script>
+    <script type="text/javascript" src="../Scripts/angular/common/services.js"></script>
+</body>
 </html>
