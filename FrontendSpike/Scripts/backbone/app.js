@@ -1,6 +1,6 @@
 ﻿requirejs.config({
     paths: {
-        'underscore': 'vendor/underscore',
+        'underscore': '../../Scripts/common/vendor/underscore',
         'backbone': 'vendor/backbone',
         'jquery': '../../Scripts/common/vendor/jquery-1.9.1',
         'bootstrap': '../../Scripts/common/vendor/bootstrap',
