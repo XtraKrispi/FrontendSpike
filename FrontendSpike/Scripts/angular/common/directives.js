@@ -1,16 +1,12 @@
 ﻿var Directives = angular.module('Directives', []);
 
-Directives.directive('date', function () {
+Directives.directive('blur', [function () {
     return {
         restrict: 'A',
-        scope: {
-            value: '=',
-            format: '='
-        },
-        template: '<span>{{formattedDate}}</span>',
-        replace: true,
         link: function(scope, elem, attrs) {
-            scope.formattedDate = Date.create(scope.value).format(scope.format);
+            elem.on('blur', function() {
+                scope.$apply(attrs.blur);
+            });
         }
     };
-});
+}]);

@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="../Content/vendor/css/bootstrap.css" />
     <link rel="stylesheet" href="../Content/site.css" />
     <link rel="stylesheet" href="../Content/vendor/css/bootstrap-responsive.css" />
+    <script type="text/javascript" src="../Scripts/common/vendor/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="../Scripts/angular/vendor/angular.js"></script>
     <script type="text/javascript" src="../Scripts/angular/vendor/angular-resource.js"></script>
     <script type="text/javascript" src="../Scripts/common/vendor/underscore.js"></script>
@@ -28,7 +29,39 @@
             <h1>User Management</h1>
         </div>
         <div id="edit" ng-controller="AddEditUserCtrl">
-            {{user.Username}}
+            <form class="well form-horizontal">
+            <div class="control-group" ng-class="{info: usernameTaken}">
+                <label class="control-label" for="txtUsername">User Name</label>
+                <div class="controls">
+                    <input type="text" class="input-large" ng-model="user.Username" id="txtUsername" ng-disabled="user.UserId" blur="checkUsername()" />
+                    <span class="help-inline" ng-show="usernameTaken">Username is taken</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="txtFirstName">First Name</label>
+                <div class="controls">
+                    <input type="text" class="input-large" ng-model="user.FirstName" id="txtFirstName" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="txtLastName">Last Name</label>
+                <div class="controls">
+                    <input type="text" class="input-large" ng-model="user.LastName" id="txtLastName" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="txtEmailAddress">Email Address</label>
+                <div class="controls">
+                    <input type="text" class="input-large" ng-model="user.EmailAddress" id="txtEmailAddress" />
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="button" id="save" class="btn btn-primary" value="Save" ng-click="saveUser()" />
+                    <input type="button" id="clear" class="btn" value="Clear" ng-click="clearUser()" />
+                </div>
+            </div>
+        </form>
         </div>
         <div id="content" ng-controller="UserListCtrl">
             <table class="table table-striped">
@@ -41,12 +74,12 @@
                     <th></th>
                 </thead>
                 <tbody>
-                    <tr class="selectable" ng-repeat="user in users">
+                    <tr class="selectable" ng-repeat="user in users" ng-click="selectUser(user)">
                         <td>{{user.FirstName}} {{user.LastName}}</td>
                         <td>{{user.Username}}</td>
                         <td>{{user.EmailAddress}}</td>
-                        <td><span date value="user.CreatedDate" format="'{Weekday} {d} {Month}, {yyyy} {h}:{mm} {tt}'"></span></td>
-                        <td><span date value="user.ModifiedDate" format="'{Weekday} {d} {Month}, {yyyy} {h}:{mm} {tt}'"></span></td>
+                        <td>{{user.CreatedDate | date:'EEEE MMMM d, yyyy h:mm a'}}</td>
+                        <td>{{user.ModifiedDate | date:'EEEE MMMM d, yyyy h:mm a'}}</td>
                         <td><div class="trash"><i class="remove icon-trash" ng-click="removeUser(user)"></i></div></td>
                     </tr>
                 </tbody>

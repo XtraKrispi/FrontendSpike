@@ -1,32 +1,56 @@
-﻿var UserControllers = angular.module('UserControllers', ['UserServices', 'Directives']);
+﻿var UserControllers = angular.module('UserControllers', ['UserServices', 'Directives', 'Services']);
 
 UserControllers.controller('UserCtrl', ['$scope', 'UserService', function ($scope, UserService) {
     if (UserService.users.length == 0) {
         var promise = UserService.loadUsers();
-        promise.then(function (users) {
-            $scope.$broadcast('users-loaded', users);
-        });
     }
 }]);
 
-UserControllers.controller('UserListCtrl', ['$scope', function ($scope) {
-    $scope.$on('users-loaded', function (event, users) {
-        $scope.users = users;
-        console.log(users);
-    });
+UserControllers.controller('UserListCtrl', ['$scope', '$location', 'UserService', function ($scope, $location, UserService) {
+    $scope.$watch(function () {
+        return UserService.users;
+    }, function () {
+        $scope.users = UserService.users;
+    }, true);
 
-    $scope.removeUser = function(user) {
+    $scope.removeUser = function (user) {
         console.log('Remove:', user);
+    };
+
+    $scope.selectUser = function (user) {
+        $location.path('/users/' + user.UserId);
     };
 }]);
 
-UserControllers.controller('AddEditUserCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+UserControllers.controller('AddEditUserCtrl', ['$scope', '$routeParams', '$location', 'UserService', 'HelperService', function ($scope, $routeParams, $location, UserService, HelperService) {
     var id = $routeParams.id;
-    $scope.$on('users-loaded', function (event, users) {
-        var user = _(users).find(function(u) {
-            return u.UserId == id;
-        });
 
-        $scope.user = user;
-    });
+    $scope.$watch(function () {
+        return UserService.users;
+    }, function () {
+        if (!$scope.user && UserService.users.length > 0) {
+            var user = _(UserService.users).find(function (u) {
+                return u.UserId == id;
+            });
+
+            $scope.user = HelperService.clone(user);
+
+            console.log('found user ', user);
+        }
+    }, true);
+
+
+    $scope.clearUser = function () {
+        $location.path('/users');
+    };
+
+    $scope.saveUser = function () {
+
+    };
+
+    $scope.checkUsername = function () {
+        UserService.checkUsername($scope.user.Username).then(function (isTaken) {
+            $scope.usernameTaken = isTaken;
+        });
+    };
 }]);
