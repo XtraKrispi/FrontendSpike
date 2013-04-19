@@ -14,3 +14,8 @@ Currently, the apps to be supported are:
 Please Note:
 ------------
 This repo does not contain the DLLs from the NuGet Packages, please install them if necessary.
+
+
+Currently, the following apps and functionality is complete:
+	Backbone -> User Admin
+	Angular  -> User Admin

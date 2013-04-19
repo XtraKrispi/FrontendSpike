@@ -6,7 +6,7 @@ UserControllers.controller('UserCtrl', ['$scope', 'UserService', function ($scop
     }
 }]);
 
-UserControllers.controller('UserListCtrl', ['$scope', '$location', 'UserService', function ($scope, $location, UserService) {
+UserControllers.controller('UserListCtrl', ['$scope', '$location', '$routeParams', 'UserService', function ($scope, $location, $routeParams, UserService) {
     $scope.$watch(function () {
         return UserService.users;
     }, function () {
@@ -14,7 +14,11 @@ UserControllers.controller('UserListCtrl', ['$scope', '$location', 'UserService'
     }, true);
 
     $scope.removeUser = function (user) {
-        console.log('Remove:', user);
+        UserService.removeUser(user).then(function(data) {
+            if ($routeParams.id && $routeParams.id == data.UserId) {
+                $location.path('/users');
+            }
+        });
     };
 
     $scope.selectUser = function (user) {
@@ -41,16 +45,21 @@ UserControllers.controller('AddEditUserCtrl', ['$scope', '$routeParams', '$locat
 
 
     $scope.clearUser = function () {
+        $scope.user = {};
+        $scope.addEditForm.userName.$setValidity('usernameTaken', true);
         $location.path('/users');
     };
 
     $scope.saveUser = function () {
-
+        UserService.saveUser($scope.user).then(function() {
+            $scope.clearUser();
+        });
     };
-
+    
     $scope.checkUsername = function () {
         UserService.checkUsername($scope.user.Username).then(function (isTaken) {
             $scope.usernameTaken = isTaken;
+            $scope.addEditForm.userName.$setValidity('usernameTaken', !isTaken);
         });
     };
 }]);
