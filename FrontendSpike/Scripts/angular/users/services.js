@@ -1,13 +1,17 @@
 ﻿var UserServices = angular.module('UserServices', []);
 
 UserServices.service('UserService', ['$http', '$q', function ($http, $q) {
-    this.users = [];
     this.loadUsers = function () {
+        var deferred = $q.defer();
         var that = this;
         $http({ method: 'GET', url: '/api/users' }).success(function (data, status, headers, config) {
             that.users = data;
+            deferred.resolve(data);
         }).error(function (data, status, headers, config) {
+            deferred.reject(data);
         });
+
+        return deferred.promise;
     };
     this.checkUsername = function (username) {
         var deferred = $q.defer();
@@ -22,7 +26,6 @@ UserServices.service('UserService', ['$http', '$q', function ($http, $q) {
     };
 
     this.saveUser = function (user) {
-        var that = this;
         var deferred = $q.defer();
 
         var promise;
@@ -33,17 +36,12 @@ UserServices.service('UserService', ['$http', '$q', function ($http, $q) {
         }
 
         promise.success(function (data) {
-            var dbUser = _(that.users).find(function(u) {
-                return u.UserId == user.UserId;
-            });
+            var toReturn = data;
+
+            if (user.UserId)
+                toReturn = user;
             
-            if (dbUser) {
-                that.users[that.users.indexOf(dbUser)] = user;
-            } else {
-                that.users.push(data);
-            }
-            
-            deferred.resolve(data);
+            deferred.resolve(toReturn);
         }).error(function(data) {
             deferred.reject(data);
         });
@@ -53,20 +51,10 @@ UserServices.service('UserService', ['$http', '$q', function ($http, $q) {
 
     this.removeUser = function(user) {
         var deferred = $q.defer();
-        var that = this;
-        
-        $http.delete('/api/users/' + user.UserId).success(function (data) {
-            var dbUser = _(that.users).find(function(u) {
-                return u.UserId == user.UserId;
-            });
-            
-            if (dbUser) {
-                that.users.splice(that.users.indexOf(dbUser), 1);
-            }
 
+        $http.delete('/api/users/' + user.UserId).success(function (data) {
             deferred.resolve(user);
         }).error(function(data) {
-
             deferred.reject(data);
         });
 

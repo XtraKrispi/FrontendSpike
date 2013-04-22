@@ -80,7 +80,7 @@
                         <td>{{user.EmailAddress}}</td>
                         <td>{{user.CreatedDate | date:'EEEE MMMM d, yyyy h:mm a'}}</td>
                         <td>{{user.ModifiedDate | date:'EEEE MMMM d, yyyy h:mm a'}}</td>
-                        <td><div class="trash"><i class="remove icon-trash" ng-click="removeUser(user)"></i></div></td>
+                        <td><div class="trash"><i class="remove icon-trash" ng-click="removeUser(user, $event)"></i></div></td>
                     </tr>
                 </tbody>
             </table>

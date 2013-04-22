@@ -1,20 +1,12 @@
 ﻿var UserControllers = angular.module('UserControllers', ['UserServices', 'Directives', 'Services']);
 
-UserControllers.controller('UserCtrl', ['$scope', 'UserService', function ($scope, UserService) {
-    if (UserService.users.length == 0) {
-        var promise = UserService.loadUsers();
-    }
-}]);
-
 UserControllers.controller('UserListCtrl', ['$scope', '$location', '$routeParams', 'UserService', function ($scope, $location, $routeParams, UserService) {
-    $scope.$watch(function () {
-        return UserService.users;
-    }, function () {
-        $scope.users = UserService.users;
-    }, true);
-
-    $scope.removeUser = function (user) {
-        UserService.removeUser(user).then(function(data) {
+    $scope.removeUser = function (user, event) {
+        event.stopPropagation();
+        UserService.removeUser(user).then(function (data) {
+            var index = _($scope.users).indexOf(data);
+            $scope.users.splice(index, 1);
+            
             if ($routeParams.id && $routeParams.id == data.UserId) {
                 $location.path('/users');
             }
@@ -29,20 +21,11 @@ UserControllers.controller('UserListCtrl', ['$scope', '$location', '$routeParams
 UserControllers.controller('AddEditUserCtrl', ['$scope', '$routeParams', '$location', 'UserService', 'HelperService', function ($scope, $routeParams, $location, UserService, HelperService) {
     var id = $routeParams.id;
 
-    $scope.$watch(function () {
-        return UserService.users;
-    }, function () {
-        if (!$scope.user && UserService.users.length > 0) {
-            var user = _(UserService.users).find(function (u) {
-                return u.UserId == id;
-            });
+    var user = _($scope.users).find(function (u) {
+        return u.UserId == id;
+    });
 
-            $scope.user = HelperService.clone(user);
-
-            console.log('found user ', user);
-        }
-    }, true);
-
+    $scope.user = HelperService.clone(user);
 
     $scope.clearUser = function () {
         $scope.user = {};
@@ -51,11 +34,22 @@ UserControllers.controller('AddEditUserCtrl', ['$scope', '$routeParams', '$locat
     };
 
     $scope.saveUser = function () {
-        UserService.saveUser($scope.user).then(function() {
+        UserService.saveUser($scope.user).then(function (u) {
+            var fromScope = _($scope.users).find(function(us) {
+                return us.UserId == u.UserId;
+            });
+
+            if (fromScope) {
+                var index = _($scope.users).indexOf(fromScope);
+                $scope.users[index] = u;
+            } else {
+                $scope.users.push(u);
+            }
+
             $scope.clearUser();
         });
     };
-    
+
     $scope.checkUsername = function () {
         UserService.checkUsername($scope.user.Username).then(function (isTaken) {
             $scope.usernameTaken = isTaken;
