@@ -1,6 +1,6 @@
 ﻿(function () {
     ko.bindingHandlers.dateString = {
-        update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+        update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var value = valueAccessor(),
                 allBindings = allBindingsAccessor();
             var valueUnwrapped = ko.utils.unwrapObservable(value);
@@ -29,15 +29,17 @@
 
         this.removeUser = function (user) {
             $.ajax('/api/users/' + user.userId, {
-                type:'DELETE'
-            }).success(function(res) {
+                type: 'DELETE'
+            }).success(function (res) {
                 that.users.remove(user);
-            }).error(function(err) {
-                
+            }).error(function (err) {
+
             });
+
+            return false;
         };
 
-        this.selectUser = function(user) {
+        this.selectUser = function (user) {
             location.hash = 'users/' + user.userId;
         };
     };
@@ -47,19 +49,16 @@
         this.user = ko.observable(new User());
         this.isUsernameTaken = ko.observable(false);
         this.saveUser = function () {
-            var applyUser = function(user) {
-                that.clearUser();
-            };
-            
             if (that.user()) {
                 var user = that.user();
+                var userJson = user.toJSON();
                 if (that.user().userId) {
-                    $.ajax('/api/users/' + user.userId, { type: 'PUT', data: ko.toJSON(that.user) }).success(function() {
-                        applyUser(user);
+                    $.ajax('/api/users/' + user.userId, { type: 'PUT', data: userJson }).success(function () {
+                        location.hash = "#users";
                     });
                 } else {
-                    $.post('/api/users', ko.toJSON(that.user)).success(function(data) {
-                        applyUser(data);
+                    $.post('/api/users', userJson).success(function (data) {
+                        sammy.refresh();
                     });
                 }
             }
@@ -67,25 +66,26 @@
 
         this.checkUsername = function (viewModel) {
             var username = viewModel.user().username();
-            $.get('/api/users?username=' + username).success(function(data) {
+            $.get('/api/users?username=' + username).success(function (data) {
                 that.isUsernameTaken(data && data.length > 0 && username);
-            }).error(function(err) {
+            }).error(function (err) {
 
             });
         };
 
         this.clearUser = function () {
             this.user(new User());
+            this.isUsernameTaken(false);
             location.hash = 'users';
         };
 
         this.getUser = function (id) {
             var that = this;
             //var user = new User()
-            $.get('/api/users/' + id).success(function(data) {
+            $.get('/api/users/' + id).success(function (data) {
                 var user = new User(data.UserId, data.FirstName, data.LastName, data.Username, data.EmailAddress, data.createdDate, data.modifiedDate);
                 that.user(user);
-            }).error(function(err) {
+            }).error(function (err) {
 
             });
         };
@@ -100,9 +100,21 @@
         this.createdDate = ko.observable(createdDate);
         this.modifiedDate = ko.observable(modifiedDate);
 
-        this.fullName = ko.computed(function() {
+        this.fullName = ko.computed(function () {
             return this.firstName() + " " + this.lastName();
         }, this);
+
+        this.toJSON = function () {
+            return {
+                UserId: this.userId,
+                FirstName: this.firstName(),
+                LastName: this.lastName(),
+                Username: this.username(),
+                EmailAddress: this.emailAddress(),
+                CreatedDate: this.createdDate(),
+                ModifiedDate: this.modifiedDate()
+            };
+        };
     };
 
     var userListViewModel = new UserListViewModel();
@@ -111,15 +123,15 @@
     var addEditViewModel = new AddEditViewModel();
     ko.applyBindings(addEditViewModel, $('#edit')[0]);
 
-    Sammy(function () {
-        this.get('#users', function() {
+    var sammy = Sammy(function () {
+        this.get('#users', function () {
             userListViewModel.getUsers();
             addEditViewModel.clearUser();
         });
 
-        this.get('#users/:id', function() {
+        this.get('#users/:id', function () {
             userListViewModel.getUsers();
             addEditViewModel.getUser(this.params.id);
         });
-    }).run();
+    }).run('#');
 })();

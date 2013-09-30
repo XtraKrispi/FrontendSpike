@@ -28,7 +28,7 @@
             <h1>User Management</h1>
         </div>
         <div id="edit">
-            <form class="well form-horizontal" name="addEditForm" data-bind="submit: saveUser">
+            <form class="well form-horizontal" name="addEditForm">
                 <div class="control-group" data-bind="css: {info: isUsernameTaken}">
                     <label class="control-label" for="txtUsername">User Name</label>
                     <div class="controls">
@@ -56,7 +56,7 @@
                 </div>
                 <div class="control-group">
                     <div class="controls">
-                        <input type="submit" id="save" class="btn btn-primary" value="Save" />
+                        <input type="button" id="save" class="btn btn-primary" value="Save" data-bind="click: saveUser" />
                         <input type="button" id="clear" class="btn" value="Clear" data-bind="click: clearUser" />
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                         <td data-bind="dateString: createdDate"></td>
                         <td data-bind="dateString: modifiedDate"></td>
                         <td>
-                            <div class="trash"><i class="remove icon-trash" data-bind="click: $parent.removeUser"></i></div>
+                            <div class="trash"><i class="remove icon-trash" data-bind="click: $parent.removeUser, clickBubble: false"></i></div>
                         </td>
                     </tr>
                     <!-- /ko -->
