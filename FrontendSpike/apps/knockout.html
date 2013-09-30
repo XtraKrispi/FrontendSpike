@@ -28,36 +28,36 @@
             <h1>User Management</h1>
         </div>
         <div id="edit">
-            <form class="well form-horizontal" name="addEditForm">
-                <div class="control-group" ng-class="{info: addEditForm.userName.$error.usernameTaken}">
+            <form class="well form-horizontal" name="addEditForm" data-bind="submit: saveUser">
+                <div class="control-group" data-bind="css: {info: isUsernameTaken}">
                     <label class="control-label" for="txtUsername">User Name</label>
                     <div class="controls">
-                        <input type="text" class="input-large" name="userName" ng-model="user.Username" id="txtUsername" ng-disabled="user.UserId" blur="checkUsername()" required />
-                        <span class="help-inline" ng-show="addEditForm.userName.$error.usernameTaken">Username is taken</span>
+                        <input type="text" class="input-large" name="userName" data-bind="value: user().username, event: { blur: checkUsername }, disable: user().userId" id="txtUsername" required />
+                        <span class="help-inline" data-bind="visible: isUsernameTaken">Username is taken</span>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="txtFirstName">First Name</label>
                     <div class="controls">
-                        <input type="text" name="firstName" class="input-large" ng-model="user.FirstName" id="txtFirstName" required />
+                        <input type="text" name="firstName" class="input-large" data-bind="value: user().firstName" id="txtFirstName" required />
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="txtLastName">Last Name</label>
                     <div class="controls">
-                        <input type="text" name="lastName" class="input-large" ng-model="user.LastName" id="txtLastName" required />
+                        <input type="text" name="lastName" class="input-large" data-bind="value: user().lastName" id="txtLastName" required />
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="txtEmailAddress">Email Address</label>
                     <div class="controls">
-                        <input type="text" name="emailAddress" class="input-large" ng-model="user.EmailAddress" id="txtEmailAddress" required />
+                        <input type="text" name="emailAddress" class="input-large" data-bind="value: user().emailAddress" id="txtEmailAddress" required />
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="controls">
                         <input type="submit" id="save" class="btn btn-primary" value="Save" />
-                        <input type="button" id="clear" class="btn" value="Clear" ng-click="clearUser()" />
+                        <input type="button" id="clear" class="btn" value="Clear" data-bind="click: clearUser" />
                     </div>
                 </div>
             </form>
