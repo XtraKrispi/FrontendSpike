@@ -223,6 +223,8 @@
     <Content Include="Scripts\backbone\users\views\UserView.js" />
     <Content Include="Scripts\backbone\vendor\backbone-min.js" />
     <Content Include="Scripts\backbone\vendor\backbone.js" />
+    <Content Include="Scripts\common\vendor\moment.js" />
+    <Content Include="Scripts\common\vendor\moment.min.js" />
     <Content Include="Scripts\common\vendor\underscore-min.js" />
     <Content Include="Scripts\common\vendor\underscore.js" />
     <Content Include="Scripts\common\vendor\bootstrap.js" />

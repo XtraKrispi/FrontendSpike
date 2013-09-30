@@ -2,8 +2,95 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Knockout App</title>
+    <link rel="stylesheet" href="../Content/vendor/css/bootstrap.css" />
+    <link rel="stylesheet" href="../Content/site.css" />
+    <link rel="stylesheet" href="../Content/vendor/css/bootstrap-responsive.css" />
+    <script type="text/javascript" src="../Scripts/common/vendor/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../Scripts/knockout/vendor/knockout-2.3.0.js"></script>
+    <script type="text/javascript" src="../Scripts/knockout/vendor/sammy.js"></script>
+    <script type="text/javascript" src="../Scripts/common/vendor/underscore.js"></script>
+    <script type="text/javascript" src="../Scripts/common/vendor/moment.js"></script>
+    <script type="text/javascript" src="../Scripts/common/vendor/sugar-1.3.9.min.js"></script>
 </head>
-    <body>
-        Knockout!
-    </body>
+<body>
+    <div class="navbar navbar-inverse navbar-static-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand">My MVC Site</a>
+                <ul class="nav">
+                    <li><a href="#users">Users</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-header">
+            <h1>User Management</h1>
+        </div>
+        <div id="edit">
+            <form class="well form-horizontal" name="addEditForm">
+                <div class="control-group" ng-class="{info: addEditForm.userName.$error.usernameTaken}">
+                    <label class="control-label" for="txtUsername">User Name</label>
+                    <div class="controls">
+                        <input type="text" class="input-large" name="userName" ng-model="user.Username" id="txtUsername" ng-disabled="user.UserId" blur="checkUsername()" required />
+                        <span class="help-inline" ng-show="addEditForm.userName.$error.usernameTaken">Username is taken</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="txtFirstName">First Name</label>
+                    <div class="controls">
+                        <input type="text" name="firstName" class="input-large" ng-model="user.FirstName" id="txtFirstName" required />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="txtLastName">Last Name</label>
+                    <div class="controls">
+                        <input type="text" name="lastName" class="input-large" ng-model="user.LastName" id="txtLastName" required />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="txtEmailAddress">Email Address</label>
+                    <div class="controls">
+                        <input type="text" name="emailAddress" class="input-large" ng-model="user.EmailAddress" id="txtEmailAddress" required />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="submit" id="save" class="btn btn-primary" value="Save" />
+                        <input type="button" id="clear" class="btn" value="Clear" ng-click="clearUser()" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="content">
+            <table class="table table-striped">
+                <thead>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email Address</th>
+                    <th>Created On</th>
+                    <th>Last Modified</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <!-- ko foreach: users -->
+                    <tr class="selectable" data-bind="click: $parent.selectUser">
+                        <td data-bind="text: fullName"></td>
+                        <td data-bind="text: username"></td>
+                        <td data-bind="text: emailAddress"></td>
+                        <td data-bind="dateString: createdDate"></td>
+                        <td data-bind="dateString: modifiedDate"></td>
+                        <td>
+                            <div class="trash"><i class="remove icon-trash" data-bind="click: $parent.removeUser"></i></div>
+                        </td>
+                    </tr>
+                    <!-- /ko -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../Scripts/knockout/app.js"></script>
+</body>
 </html>
