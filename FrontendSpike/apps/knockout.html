@@ -11,6 +11,7 @@
     <script type="text/javascript" src="../Scripts/common/vendor/underscore.js"></script>
     <script type="text/javascript" src="../Scripts/common/vendor/moment.js"></script>
     <script type="text/javascript" src="../Scripts/common/vendor/sugar-1.3.9.min.js"></script>
+    <script type="text/javascript" src="../Scripts/common/vendor/jquery.validate.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-static-top">
@@ -18,7 +19,7 @@
             <div class="container">
                 <a class="brand">My MVC Site</a>
                 <ul class="nav">
-                    <li><a href="#users">Users</a></li>
+                    <li><a href="#/users">Users</a></li>
                 </ul>
             </div>
         </div>
@@ -28,7 +29,7 @@
             <h1>User Management</h1>
         </div>
         <div id="edit">
-            <form class="well form-horizontal" name="addEditForm">
+            <form class="well form-horizontal" id="addEditForm" name="addEditForm">
                 <div class="control-group" data-bind="css: {info: isUsernameTaken}">
                     <label class="control-label" for="txtUsername">User Name</label>
                     <div class="controls">

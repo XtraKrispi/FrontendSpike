@@ -40,7 +40,7 @@
         };
 
         this.selectUser = function (user) {
-            location.hash = 'users/' + user.userId;
+            location.hash = '/users/' + user.userId;
         };
     };
 
@@ -49,12 +49,12 @@
         this.user = ko.observable(new User());
         this.isUsernameTaken = ko.observable(false);
         this.saveUser = function () {
-            if (that.user()) {
+            if ($('#addEditForm').valid() && that.user()) {
                 var user = that.user();
                 var userJson = user.toJSON();
                 if (that.user().userId) {
                     $.ajax('/api/users/' + user.userId, { type: 'PUT', data: userJson }).success(function () {
-                        location.hash = "#users";
+                        location.hash = "/users";
                     });
                 } else {
                     $.post('/api/users', userJson).success(function (data) {
@@ -76,7 +76,7 @@
         this.clearUser = function () {
             this.user(new User());
             this.isUsernameTaken(false);
-            location.hash = 'users';
+            location.hash = '/users';
         };
 
         this.getUser = function (id) {
@@ -124,14 +124,20 @@
     ko.applyBindings(addEditViewModel, $('#edit')[0]);
 
     var sammy = Sammy(function () {
-        this.get('#users', function () {
+        this.get('#', function() {
+
+        });
+        
+        this.get('#/users', function () {
             userListViewModel.getUsers();
             addEditViewModel.clearUser();
         });
 
-        this.get('#users/:id', function () {
+        this.get('#/users/:id', function () {
             userListViewModel.getUsers();
             addEditViewModel.getUser(this.params.id);
         });
     }).run('#');
+
+    $('#addEditForm').validate();
 })();
