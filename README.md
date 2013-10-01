@@ -19,3 +19,4 @@ This repo does not contain the DLLs from the NuGet Packages, please install them
 Currently, the following apps and functionality is complete:
 *	Backbone -> User Admin
 *	Angular  -> User Admin
+*	knockout -> User Admin
